@@ -124,3 +124,17 @@ ADD COLUMN IdMoneda INTEGER NOT NULL,
 ADD COLUMN Mapa BYTEA,
 ADD COLUMN Bandera BYTEA,
 ADD CONSTRAINT fkPais_IdMoneda FOREIGN KEY (IdMoneda) REFERENCES Moneda(Id);
+
+--Agregar las monedas a la tabla Moneda
+INSERT INTO Moneda(Moneda)
+SELECT DISTINCT moneda FROM Pais;
+
+--Agregar valores de la fk a la columna IdMoneda
+UPDATE Pais
+SET IdMoneda = Moneda.Id
+FROM Moneda
+WHERE Pais.Moneda = Moneda.Moneda;
+
+--Eliminar la columna Moneda
+ALTER TABLE Pais
+DROP COLUMN Moneda;
